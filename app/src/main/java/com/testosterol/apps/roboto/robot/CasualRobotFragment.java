@@ -8,16 +8,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.service.autofill.FieldClassification;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.testosterol.apps.roboto.R;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -34,11 +39,14 @@ public class CasualRobotFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final String REGEX = "[lfr]";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private EditText xAxis, yAxis, instructions, startX, startY, direction;
+    private TextView result;
     private Button startRobot;
 
     private OnFragmentInteractionListener mListener;
@@ -92,97 +100,102 @@ public class CasualRobotFragment extends Fragment {
         startY = view.findViewById(R.id.y_start);
         direction = view.findViewById(R.id.direction);
         startRobot = view.findViewById(R.id.start_button);
+        result = view.findViewById(R.id.result);
 
 
         startRobot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Integer> graphDimens = new ArrayList<>();
-                graphDimens.add(Integer.valueOf(xAxis.getText().toString()));
-                graphDimens.add(Integer.valueOf(yAxis.getText().toString()));
+                if (!xAxis.getText().toString().isEmpty() && !yAxis.getText().toString().isEmpty()
+                        && !instructions.getText().toString().isEmpty() && !startX.getText().toString().isEmpty()
+                        && !startY.getText().toString().isEmpty() && !direction.getText().toString().isEmpty()) {
 
-                ArrayList<Integer> startDimens = new ArrayList<>();
-                startDimens.add(Integer.valueOf(startX.getText().toString()));
-                startDimens.add(Integer.valueOf(startY.getText().toString()));
+                    String facingDirection = direction.getText().toString().toUpperCase();
+                    if (facingDirection.matches("[NSWE]")) {
 
-                int[] xStart = new int[1];
-                int[] yStart = new int[1];
+                        int[] xStart = new int[1];
+                        int[] yStart = new int[1];
 
-                xStart[0] = Integer.valueOf(startX.getText().toString());
-                yStart[0] = Integer.valueOf(startY.getText().toString());
+                        xStart[0] = Integer.valueOf(startX.getText().toString());
+                        yStart[0] = Integer.valueOf(startY.getText().toString());
 
-                String facingDirection = direction.getText().toString();
-                String[] instructionsArr = instructions.getText().toString().split("");
+                        String[] instructionsArr = instructions.getText().toString().toUpperCase().split("");
 
-                for(int i=0; i<instructionsArr.length; i++){
-                    switch (instructionsArr[i]){
-                        case "R":
-                            switch (facingDirection){
-                                case "N":
-                                    xStart[0]++;
-                                    facingDirection = "E";
+                        for (int i = 0; i < instructionsArr.length; i++) {
+                            switch (instructionsArr[i]) {
+                                case "R":
+                                    facingDirection = switchCaseDirection("R", facingDirection);
                                     break;
-                                case "S":
-                                    xStart[0]--;
-                                    facingDirection = "W";
+                                case "L":
+                                    facingDirection = switchCaseDirection("L", facingDirection);
                                     break;
-                                case "E":
-                                    yStart[0]--;
-                                    facingDirection = "S";
+                                case "F":
+                                    switch (facingDirection) {
+                                        case "N":
+                                            yStart[0]++;
+                                            break;
+                                        case "S":
+                                            yStart[0]--;
+                                            break;
+                                        case "E":
+                                            xStart[0]++;
+                                            break;
+                                        case "W":
+                                            xStart[0]--;
+                                            break;
+                                    }
                                     break;
-                                case "W":
-                                    yStart[0]++;
-                                    facingDirection = "N";
+                                default:
+                                    if(instructionsArr[i].matches("[^lfr]")) {
+                                        Toast.makeText(getActivity(), "Instructions unclear, use R-right, L-left, F-forward only", Toast.LENGTH_LONG).show();
+                                    }
                                     break;
                             }
-                            break;
-                        case "L":
-                            switch (facingDirection){
-                                case "N":
-                                    xStart[0]--;
-                                    facingDirection = "W";
-                                    break;
-                                case "S":
-                                    xStart[0]++;
-                                    facingDirection = "E";
-                                    break;
-                                case "E":
-                                    yStart[0]++;
-                                    facingDirection = "N";
-                                    break;
-                                case "W":
-                                    yStart[0]--;
-                                    facingDirection = "S";
-                                    break;
-                            }
-                            break;
-                        case "F":
-                            switch (facingDirection){
-                                case "N":
-                                    yStart[0]++;
-                                    break;
-                                case "S":
-                                    yStart[0]--;
-                                    break;
-                                case "E":
-                                    xStart[0]++;
-                                    break;
-                                case "W":
-                                    xStart[0]--;
-                                    break;
-                            }
-                            break;
-                        default:
-                            break;
+                        }
+                        String resultStr = "Result: " + "" + xStart[0] + " " + yStart[0] + " " + facingDirection;
+                        result.setText(resultStr);
+                    } else {
+                        Toast.makeText(getActivity(), "The facing direction must be either N-north, W-west, S-south, E-east", Toast.LENGTH_LONG).show();
                     }
+                } else {
+                    Toast.makeText(getActivity(), "Please fill all the fields !", Toast.LENGTH_LONG).show();
                 }
-
-
-                Log.d("result","x: " + xStart[0] + " y: " + yStart[0] + " dir: " + facingDirection);
-
             }
         });
+    }
 
+    private String switchCaseDirection(String instruction, String direction){
+        switch (direction) {
+            case "N":
+                if(instruction.equals("R")){
+                    direction = "E";
+                }else{
+                    direction = "W";
+                }
+                break;
+            case "S":
+                if(instruction.equals("R")) {
+                    direction = "W";
+                }else{
+                    direction = "E";
+                }
+                break;
+            case "E":
+                if(instruction.equals("R")) {
+                    direction = "S";
+                }else{
+                    direction = "N";
+                }
+                break;
+            case "W":
+                if(instruction.equals("R")) {
+                    direction = "N";
+                }else{
+                    direction = "S";
+                }
+                break;
+        }
+        return direction;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -193,7 +206,7 @@ public class CasualRobotFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

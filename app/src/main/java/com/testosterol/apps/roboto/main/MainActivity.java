@@ -11,11 +11,9 @@ import android.os.Bundle;
 
 import com.testosterol.apps.roboto.R;
 import com.testosterol.apps.roboto.robot.CasualRobotFragment;
-import com.testosterol.apps.roboto.robot.TerminatorFragment;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener,
-        CasualRobotFragment.OnFragmentInteractionListener,
-        TerminatorFragment.OnFragmentInteractionListener {
+        CasualRobotFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

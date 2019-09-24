@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
@@ -30,4 +32,13 @@ dependencies {
     // Java
     implementation "androidx.navigation:navigation-fragment:2.1.0"
     implementation "androidx.navigation:navigation-ui:2.1.0"
+
+    implementation 'com.flaviofaria:kenburnsview:1.0.7'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+}
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
 }

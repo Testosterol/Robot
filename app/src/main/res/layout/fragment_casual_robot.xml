@@ -46,20 +46,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/x_start"
+        android:id="@+id/y_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="5"
         android:hint="Y start"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/y_start"
+        app:layout_constraintStart_toEndOf="@+id/x_start"
         app:layout_constraintTop_toBottomOf="@+id/y_axis_edit_text" />
 
     <EditText
-        android:id="@+id/y_start"
+        android:id="@+id/x_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -68,9 +68,9 @@
         android:layout_marginBottom="8dp"
         android:ems="5"
         android:hint="X start"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/direction"
-        app:layout_constraintEnd_toStartOf="@+id/x_start"
+        app:layout_constraintEnd_toStartOf="@+id/y_start"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/x_axis_edit_text" />
 
@@ -119,5 +119,16 @@
         app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/direction" />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

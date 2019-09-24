@@ -3,4 +3,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mission_goal"><![CDATA[Your goal is to destroy Sarah Connor. Sarah Connor hides in a 5x5 square room with two bodyguards. You will be deployed at (0,0 N). Your mission is to find the path (by providing instructions) to Sarah Connor without the bodyguards noticing. If you are not afraid, press the \'>\' button]]></string>
+    <string name="mission">Mission</string>
+    <string name="mission_story">You are a Terminator, the uprising of the machines has started. Humanity declared war against the machines but has been losing on all fronts except Denmark where Humanity\'s last chance by name Sarah Connor is raising more resistance day by day.</string>
+    <string name="story">Story</string>
 </resources>

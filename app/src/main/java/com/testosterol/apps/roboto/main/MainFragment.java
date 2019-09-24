@@ -94,7 +94,7 @@ public class MainFragment extends Fragment {
         terminatorImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_terminatorFragment);
+                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_terminatorStory2);
             }
         });
 

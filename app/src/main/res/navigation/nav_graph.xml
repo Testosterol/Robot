@@ -5,20 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.testosterol.apps.roboto.main.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment_to_terminatorFragment"
-            app:destination="@id/terminatorFragment"
-            app:popUpTo="@+id/mainFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_casualRobotFragment"
-            app:destination="@id/casualRobotFragment"
-            app:popUpTo="@+id/mainFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/casualRobotFragment"
         android:name="com.testosterol.apps.roboto.robot.CasualRobotFragment"
         android:label="fragment_casual_robot"
@@ -28,4 +14,23 @@
         android:name="com.testosterol.apps.roboto.robot.TerminatorFragment"
         android:label="fragment_terminator"
         tools:layout="@layout/fragment_terminator" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.testosterol.apps.roboto.main.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_casualRobotFragment"
+            app:destination="@id/casualRobotFragment"
+            app:popUpTo="@+id/mainFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_terminatorStory2"
+            app:destination="@id/terminatorStory2"
+            app:popUpTo="@+id/mainFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/terminatorStory2"
+        android:name="com.testosterol.apps.roboto.robot.TerminatorStory"
+        android:label="TerminatorStory" />
+
 </navigation>
