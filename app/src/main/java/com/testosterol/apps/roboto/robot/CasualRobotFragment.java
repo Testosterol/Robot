@@ -18,6 +18,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.testosterol.apps.roboto.R;
 
 import java.util.ArrayList;
@@ -48,6 +53,7 @@ public class CasualRobotFragment extends Fragment {
     private EditText xAxis, yAxis, instructions, startX, startY, direction;
     private TextView result;
     private Button startRobot;
+    private LineChart mChart;
 
     private OnFragmentInteractionListener mListener;
 
@@ -101,6 +107,7 @@ public class CasualRobotFragment extends Fragment {
         direction = view.findViewById(R.id.direction);
         startRobot = view.findViewById(R.id.start_button);
         result = view.findViewById(R.id.result);
+        mChart = view.findViewById(R.id.linechart_casual);
 
 
         startRobot.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +126,16 @@ public class CasualRobotFragment extends Fragment {
                         xStart[0] = Integer.valueOf(startX.getText().toString());
                         yStart[0] = Integer.valueOf(startY.getText().toString());
 
+                        int xAxisValue = Integer.parseInt(xAxis.getText().toString());
+
+                        ArrayList<String> xVals = new ArrayList<>();
+                        ArrayList<Entry> yVals = new ArrayList<Entry>();
+
+                        for(int j = 0; j<=xAxisValue; j++) {
+                            xVals.add(String.valueOf(j));
+                        }
+                        yVals.add(new Entry(xStart[0], yStart[0]));
+
                         String[] instructionsArr = instructions.getText().toString().toUpperCase().split("");
 
                         for (int i = 0; i < instructionsArr.length; i++) {
@@ -133,15 +150,19 @@ public class CasualRobotFragment extends Fragment {
                                     switch (facingDirection) {
                                         case "N":
                                             yStart[0]++;
+                                            yVals.add(new Entry(xStart[0], yStart[0]));
                                             break;
                                         case "S":
                                             yStart[0]--;
+                                            yVals.add(new Entry(xStart[0], yStart[0]));
                                             break;
                                         case "E":
                                             xStart[0]++;
+                                            yVals.add(new Entry(xStart[0], yStart[0]));
                                             break;
                                         case "W":
                                             xStart[0]--;
+                                            yVals.add(new Entry(xStart[0], yStart[0]));
                                             break;
                                     }
                                     break;
@@ -152,6 +173,21 @@ public class CasualRobotFragment extends Fragment {
                                     break;
                             }
                         }
+
+                        LineDataSet set1;
+
+                        // create a dataset and give it a type
+                        set1 = new LineDataSet(yVals, "path");
+
+                        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+                        dataSets.add(set1); // add the datasets
+
+                        // create a data object with the datasets
+                        LineData data = new LineData(xVals, dataSets);
+
+                        // set data
+                        mChart.setData(data);
+
                         String resultStr = "Result: " + "" + xStart[0] + " " + yStart[0] + " " + facingDirection;
                         result.setText(resultStr);
                     } else {

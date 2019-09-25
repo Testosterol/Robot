@@ -41,7 +41,7 @@ public class TerminatorActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.terminator_layout);
 
-        proceed = findViewById(R.id.proceed_button);
+      /*  proceed = findViewById(R.id.proceed_button);
         instructions = findViewById(R.id.instructions_terminator);
 
 
@@ -68,7 +68,7 @@ public class TerminatorActivity extends AppCompatActivity implements
         // set data
         mChart.setData(data);
 
-
+*/
 
 
     }
