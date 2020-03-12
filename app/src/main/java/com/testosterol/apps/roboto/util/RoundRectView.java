@@ -23,7 +23,7 @@ import com.testosterol.apps.roboto.manager.ClipPathManager;
 public class RoundRectView extends ShapeOfView {
 
      private final RectF rectF = new RectF();
-
+        //
     //region border
     private final Paint borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final RectF borderRectF = new RectF();
